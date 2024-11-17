@@ -26,6 +26,6 @@ You can run the program with different modes and flags.
 ### Example
 
 ```bash
-  ./prim encode -c config.json
+  ./prim encode -c config.yaml
 ```
   
