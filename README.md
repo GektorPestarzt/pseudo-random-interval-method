@@ -1,1 +1,1 @@
-# pseudo-random-interval-method-
+# pseudo-random-interval-method
