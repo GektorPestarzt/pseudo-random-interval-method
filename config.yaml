@@ -1,0 +1,17 @@
+encode:
+  input: "samples/bmp_24.bmp"
+  output: "samples/bmp_24_encode.bmp"
+  text: "Shilo bob bob bibo bam top"
+
+decode:
+  input: "samples/bmp_24_encode.bmp"
+
+compare:
+  first: "samples/bmp_24.bmp"
+  second: "samples/bmp_24_encode.bmp"
+  output: "samples/bmp_24_compared.bmp"
+
+eot: "KiHeu,6"
+entry: 146
+key: 4
+op: blue

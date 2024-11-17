@@ -51,18 +51,14 @@ func (ip *ImagePacker) Set(index int, bit uint8) error {
 	var err error = nil
 
 	switch ip.op {
-	case Blue:
-		err = ip.setBlue(index, bit)
-	case Red:
-		err = fmt.Errorf("dont work")
-	case Green:
-		err = fmt.Errorf("dont work")
+	case Blue, Red, Green:
+		err = ip.setColor(index, bit)
 	}
 
 	return err
 }
 
-func (ip *ImagePacker) setBlue(index int, bit uint8) error {
+func (ip *ImagePacker) setColor(index int, bit uint8) error {
 	width := ip.img.Bounds().Max.X - ip.img.Bounds().Min.X
 	height := ip.img.Bounds().Max.Y - ip.img.Bounds().Min.Y
 
@@ -77,9 +73,19 @@ func (ip *ImagePacker) setBlue(index int, bit uint8) error {
 	newColor := color.RGBA{
 		R: originalColor.R,
 		G: originalColor.G,
-		B: setLastBit(originalColor.B, bit),
+		B: originalColor.B,
 		A: originalColor.A,
 	}
+
+	switch ip.op {
+	case Blue:
+		newColor.B = setLastBit(originalColor.B, bit)
+	case Red:
+		newColor.R = setLastBit(originalColor.R, bit)
+	case Green:
+		newColor.G = setLastBit(originalColor.G, bit)
+	}
+
 	ip.newRGBA.Set(x, y, newColor)
 
 	return nil
@@ -94,16 +100,14 @@ func (ip *ImagePacker) Get(index int) (uint8, error) {
 	var bit uint8 = 2
 
 	switch ip.op {
-	case Blue:
-		bit, err = ip.getBlue(index)
-	case Red:
-	case Green:
+	case Blue, Red, Green:
+		bit, err = ip.getColor(index)
 	}
 
 	return bit, err
 }
 
-func (ip *ImagePacker) getBlue(index int) (uint8, error) {
+func (ip *ImagePacker) getColor(index int) (uint8, error) {
 	width := ip.img.Bounds().Max.X - ip.img.Bounds().Min.X
 	height := ip.img.Bounds().Max.Y - ip.img.Bounds().Min.Y
 
@@ -115,10 +119,21 @@ func (ip *ImagePacker) getBlue(index int) (uint8, error) {
 	}
 
 	clr := ip.img.At(x, y).(color.RGBA)
-	if clr.B&0x01 == 0x01 {
-		return 1, nil
+	var bit uint8 = 2
+
+	switch ip.op {
+	case Blue:
+		bit = clr.B & 0x01
+	case Red:
+		bit = clr.R & 0x01
+	case Green:
+		bit = clr.G & 0x01
 	}
-	return 0, nil
+
+	if bit == 2 {
+		return bit, fmt.Errorf("wrong packer op")
+	}
+	return bit, nil
 }
 
 func setLastBit(value uint8, bit uint8) uint8 {
@@ -130,4 +145,14 @@ func setLastBit(value uint8, bit uint8) uint8 {
 
 func (ip *ImagePacker) GetImage() image.Image {
 	return ip.newRGBA
+}
+
+func OpMap(text string) uint {
+	opMap := map[string]uint{
+		"blue":  Blue,
+		"red":   Red,
+		"green": Green,
+	}
+
+	return opMap[text]
 }
