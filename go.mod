@@ -1,4 +1,4 @@
-module pseudo-random-interval-method
+module github.com/gektorpestarzt/pseudo-random-interval-method
 
 go 1.23.2
 

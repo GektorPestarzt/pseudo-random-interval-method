@@ -2,12 +2,12 @@ package main
 
 import (
 	"fmt"
+	"github.com/gektorpestarzt/pseudo-random-interval-method/internal/codec"
+	"github.com/gektorpestarzt/pseudo-random-interval-method/internal/packer"
 	"golang.org/x/image/bmp"
 	"image"
 	"log"
 	"os"
-	"pseudo-random-interval-method/internal/codec"
-	"pseudo-random-interval-method/internal/packer"
 )
 
 func main() {

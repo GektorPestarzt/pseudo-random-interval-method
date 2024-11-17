@@ -3,14 +3,14 @@ package main
 import (
 	"flag"
 	"fmt"
+	"github.com/gektorpestarzt/pseudo-random-interval-method/internal/codec"
+	"github.com/gektorpestarzt/pseudo-random-interval-method/internal/packer"
 	"golang.org/x/image/bmp"
 	"gopkg.in/yaml.v3"
 	"image"
 	"image/color"
 	"log"
 	"os"
-	"pseudo-random-interval-method/internal/codec"
-	"pseudo-random-interval-method/internal/packer"
 )
 
 const DEFAULT_CONFIG_FILE = "config.yaml"

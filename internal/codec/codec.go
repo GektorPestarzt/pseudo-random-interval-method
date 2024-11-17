@@ -1,9 +1,9 @@
 package codec
 
 import (
+	"github.com/gektorpestarzt/pseudo-random-interval-method/internal/packer"
 	"image"
 	"math/bits"
-	"pseudo-random-interval-method/internal/packer"
 )
 
 type Codec struct {
